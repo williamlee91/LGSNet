@@ -1,0 +1,128 @@
+BASIC:
+  ROOT_DIR: '/home/yww/LGSNET/LGSNet'
+  WORKERS: 4
+  SEED: 1
+  BACKUP_CODES: True
+  BACKUP_LISTS: ['lib', 'experiments', 'tools']
+  SAVE_PREDICT_RESULT: False
+  SHOW_CFG: False
+  CREATE_OUTPUT_DIR: True
+
+CUDNN:
+  BENCHMARK: False
+  DETERMINISTIC: True
+  ENABLE: True
+
+DATASET:
+  FEAT_DIR: '/home/yww/1_spot/ca_subject_train_ori_new_3pos_357/val_test'
+  TRAIN_SPLIT: 'train'
+  VAL_SPLIT: 'test'
+  DATASET_NAME: cas(me)^2
+  WINDOW_SIZE: 128
+  SAMPLE_STRIDE: 2
+  NUM_CLASSES: 2
+  CLASS_IDX: [0, 1, 2]
+  OVERLAP_RATIO_TH: 0.9
+  MAX_SEGMENT_NUM: 30
+  PIN_MEMORY: True
+
+MODEL:
+  IN_FEAT_DIM: 2048
+  BASE_FEAT_DIM: 512
+  REDU_CHA_DIM: 512
+  HEAD_DIM: 256
+  HEAD_LAYERS: 2
+  NUM_LAYERS: 4
+  LAYER_DIMS: [512, 512, 1024, 1024]
+  LAYER_STRIDES: [1, 2, 2, 2]
+  ASPECT_RATIOS: [0.5, 0.75, 1, 1.5, 2]
+  # parameter for anchor-free
+  RESCALE: True
+  TEMPORAL_LENGTH: [16, 8, 4, 2]
+  TEMPORAL_STRIDE: [8, 16, 32, 64]
+  NORM_ON_BBOX: True
+  RECEPTIVE_FUSION: [16]
+  INHIBITION_INTERVAL: [16]
+  GLOBAL_ENHANCEMENT: []
+  DROP_THRESHOLD: 0.45
+  HEADS: 8
+
+TRAIN:
+  WEIGHT_DECAY: 0
+  LR: 0.0008
+  BATCH_SIZE: 64
+  END_EPOCH: 30
+  WARM_UP_EPOCH: 5
+  FG_TH: 0.5
+  BG_TH: 0.4
+  NEGATIVE_RATIO: 1
+  MODELS_DIR: ''
+  LOG_FILE: 'train_loss.log'
+  MODEL_DIR: 'output/cas(me)^2_new/'
+  REGRESS_RANGES: [[0, 10], [8, 32], [16, 64], [64, 128]]
+  CENTER_SAMPLING: False
+  CENTER_SAMPLE_RADIUS: [1.0, 2.0, 2.0, 2.0]
+  ALPHA: [[0.25, 0.25]]
+ # REG ENHANCE IN AF
+  ENHANCE_FLAG: 0
+  # 0: the short for enhancement
+  ENHANCE_TIMES: 4
+  # 1: ab & af videos for enhancement 
+  SHORT_DURATION: 10
+  LONG_DURATION:  22
+  # 2: the short and the long for enhancement in af
+  DURATION_LE: 12
+  DURATION_MI: 40
+  DURATION_LA: 60
+  LE_ENHANCE: 4.0
+  MI_ENHANCE: 1.0
+  LA_ENHANCE: 1.0
+  # reg loss with reweighted
+  IOU_LOSS_AF: 1.0
+  IOU_LOSS_AB: 1.0
+  # 0: iou with log
+  # 1: iou with 1-iou
+  IOU_LOSS_LOG: FALSE
+  # smooth with iou
+  SMOOTH_THRESHOLD: 0.8
+  SIGMA: 0.5
+  # factors for each loss 
+  ENHANCE_REG: 1.0
+  ENHANCE_CLS: 1.0
+  # conditional smooth l1 loss for reg
+  BETA_SEPARATE: True
+  BETA_AB: 1.000
+  BETA_AB_LOC: 1.000 # LOC for center points
+  BETA_AB_LEN: 1.000 # LEN for video duration
+  # anchor_based loss
+  # 0: Conditional Smooth l1 loss
+  # 1: IoU loss
+  ANCHOR_BASED_LOSS_FLAG: 0
+
+
+TEST:
+  BATCH_SIZE: 64
+  EVAL_INTERVAL: 1
+  TOP_K_RPOPOSAL: 30
+  # 0: NMS
+  # 1: Soft_NMS
+  # 2: WBF
+  NMS_FALG: 0
+  NMS_ALL: True
+  # parameters for nms
+  NMS_TH: 0.01
+  # parameters for soft_nms
+  SOFT_NMS_ALPHA: 0.75
+  SOFT_NMS_LOW_TH: 0.65
+  SOFT_NMS_HIGH_TH: 0.9
+  # parameters for wbf
+  WBF_NMS_TH: 0.01
+  WBF_SKIP_TH: 0.37
+  WBF_REWEIGHT_FACTOR: 2.0
+  FILTER_NEGATIVE_TH: 0.98
+  FILTER_CONF_TH: 0.1
+  # assign cliffDiving instance as diving
+  PREDICT_CSV_FILE: 'output/cas(me)^2_new/prediction'
+  PREDICT_TXT_FILE: 'test_detection'
+  OUTDF_COLUMNS_AB: ['video_name', 'cate_idx', 'conf', 'xmax', 'xmin']
+  OUTDF_COLUMNS_AF: ['video_name', 'cate_idx', 'conf', 'xmax', 'xmin']
