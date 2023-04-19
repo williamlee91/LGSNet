@@ -124,6 +124,13 @@ python /home/yww/1_spot/MSA-Net/tools/F1_score_last.py --path '/home/yww/LGSNET/
 ## Citation
 
 ```
+@article{yu2023lgsnet,
+  title={LGSNet: A Two-Stream Network for Micro-and Macro-Expression Spotting With Background Modeling},
+  author={Yu, Wang-Wang and Jiang, Jingwen and Yang, Kai-Fu and Yan, Hong-Mei and Li, Yong-Jie},
+  journal={IEEE Transactions on Affective Computing},
+  year={2023},
+  publisher={IEEE}
+}
 ```
 ## Contact
 If you have any question or comment, please contact the first author of the paper - Wang-Wang Yu (yuwangwang91@163.com).
